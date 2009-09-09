@@ -77,6 +77,10 @@ function submit_handler(event) {
   }
 }
 
+function actualValue() {
+  if (this.value==this.defaultValue) { return ""; } else { return this.value; }
+}
+
 Event.observe(window,'load',function() {
   forms = $$('form');
   for (i=0; i<forms.length; i++) {
@@ -89,6 +93,7 @@ Event.observe(window,'load',function() {
     }
   }
   $$('.labelinput').each(function(element){
+    element.actualValue=actualValue.bind(element);
     if (element.type=='password') {
       element.addClassName('labelinput_password');
       element.value=element.defaultValue;
