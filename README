@@ -1,0 +1,79 @@
+Labelinput v1.00
+Copyright (c) 2009 Aurélien Geron, Wifirst
+Released under the MIT Licence.
+
+= Introduction =
+
+LabelInput is a javascript tool which adds a label inside your text or password
+inputs.  This label automatically disappears when the input is not empty.
+The style can be changed as needed very easily.
+
+You can try it out by opening any HTML in the test directory in your browser.
+
+
+= Compatibility =
+Should work in any recent Javascript-compatible browser.
+
+Tested on:
+- Iceweasel 3.0.6
+
+
+= Installation =
+
+1. Download prototype.js (www.prototypejs.org) or use the included copy.
+
+2. Copy prototype.js, labelinput.js and your prefered labelinput CSS stylesheet
+   (such as labelinput_blue.css) in the same directory as your HTML file, or in
+   the appropriate location within your project (for example, in a "public"
+   directory).
+
+3. Include protype.js and labelinput.js in the <head> section of your HTML
+   code:
+
+    <script src="prototype.js"  type="text/javascript"></script>
+    <script src="labelinput.js" type="text/javascript"></script>
+
+   Fix the paths if these files are not in the same directory as the HTML file.
+
+4. Also include your prefered css stylesheet to your HTML code:
+     <link href="labelinput_blue.css" rel="stylesheet" type="text/css" />
+
+   You may tweak the CSS to your liking, of course.
+
+
+= Usage =
+
+1. Add the "labelinput" class to the text or password inputs that you wish to
+   label, and set the label using the "value" attribute:
+
+   <input class="labelinput" id="lgn" name="lgn" value="Your login"></input>
+   <input class="labelinput" id="pwd" name="pwd" value="Your password"></input>
+
+2. If you want a labelled input to be selected automatically when the page
+   loads, simply add the "autofocus" class:
+
+   <input class="labelinput autofocus" [...]></input>
+
+
+3. If you want a labelled input to be required, simply add the "required"
+   class:
+
+   <input class="labelinput required" [...]></input>
+
+   If the input is left empty, the user will not be able to submit the form.
+   Instead, all empty and required inputs will be turned to red (tweak the
+   "labelinput_error" class in the CSS to change the style as you wish) and
+   the first empty and required input will automatically get the focus.
+
+   Note that if a labelled input is not required and if it is left empty, its
+   value will be automatically set to "" (empty string) before it is submitted.
+
+= Known issues and future enhancements =
+
+- Testing is needed in many browsers
+- An event should be triggered when a required input is left empty and the form
+  is submitted. This could be useful if the user wants to display an error
+  message for example.
+- The autofocus and required functionnality should perhaps be extracted to
+  their own javascript file. One may one one functionnality and not the others.
+

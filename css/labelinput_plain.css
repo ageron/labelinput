@@ -1,0 +1,18 @@
+/***********************************************/
+/*  Labelinput v1.00                           */
+/*  Copyright (c) 2009 Aurélien Geron, Wifirst */
+/*  Released under the MIT Licence             */
+/***********************************************/
+
+.labelinput_empty {
+  color: #777;
+}
+
+.labelinput_empty:focus {
+  color: #BBB;
+}
+
+.required_error {
+  background: #FAA;
+}
+

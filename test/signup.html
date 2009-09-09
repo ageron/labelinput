@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <link href="../css/labelinput_blue.css" rel="stylesheet" type="text/css" />
+  <title>Test labelinput</title>
+  <script src="../js/prototype.js" type="text/javascript"></script>
+  <script src="../js/labelinput.js" type="text/javascript"></script>
+  <style>
+    body { text-align: center; margin: 0; }
+    h1 { width: 100%; background: #000044; color: white; margin: 0px 0px 10px 0px; padding: 3px 0px 3px 0px; }
+    form { width: 500px; margin: 50px auto 0px auto; }
+    label { float: left; width: 150px; }
+    p { margin: 5px; }
+    legend { font-weight: bold; color: #000066; }
+    .comment { font-style: italic; font-size: smaller; font-weight: lighter; margin-top: 10px; }
+    .submitbutton { float: right; background: #000099; color: white; font-weight: bold; }
+    .submitbutton:hover { float: right; background: #8888EE; font-weight: bold; }
+  </style>
+  <script language="javascript">
+    function check_pass() {
+      pwd=$('password');
+      repwd=$('repeatpassword');
+      if (pwd.realValue==repwd.realValue) return true;
+      $('error').show();
+      return false;
+    }
+    function hideError {
+      $('error').hide();
+    });
+  </script>
+</head>
+<body onLoad="javascript: hideError();">
+  <h1>Test labelinput</h1>
+  <form id="loginform" name="loginform" action="login" method="get" onSubmit="javascript: return check_pass();" >
+    <fieldset>
+    <legend>Sign up form</legend>
+    <p><label for="firstname">First name (*):</label><input id="firstname" name="firstname" class="labelinput required autofocus" value="eg. John"></input></p>
+    <p><label for="lastname">Last name (*):</label><input id="lastname" name="lastname" class="labelinput required" value="eg. Smith"></input></p>
+    <p><label for="email">Email:</label><input id="email" name="email" class="labelinput" value="eg. jsmith@gmail.com"></input></p>
+    <p><label for="login">Login (*):</label><input id="login" name="login" class="labelinput required" value="eg. jsmith"></input></p>
+    <p><label for="password">Password (*):</label><input id="password" name="password" class="labelinput required" value="Make it hard to guess" type="password"></input></p>
+    <p><label for="repeatpassword">Repeat password (*):</label><input id="repeatpassword" name="repeatpassword" class="labelinput required" value="Repeat your password" type="password"></input></p>
+    <div id="error">Passwords are not identical. Please try again.</div>
+    <p class="comment">(*) These fields are mandatory</p>
+    <p><input type="submit" value="Create my account >>" class="submitbutton"></input></p>
+    </fieldset>
+  </form>
+</body>
+</html>
+
+

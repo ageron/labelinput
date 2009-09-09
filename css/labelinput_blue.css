@@ -1,0 +1,29 @@
+/***********************************************/
+/*  Labelinput v1.00                           */
+/*  Copyright (c) 2009 Aurélien Geron, Wifirst */
+/*  Released under the MIT Licence             */
+/***********************************************/
+
+.labelinput {
+  color: #004;
+}
+.labelinput:focus {
+  margin: 0px;
+  border: 2px solid #4664A3;
+}
+
+.labelinput_empty {
+  color: #777;
+  font-style: italic;
+}
+
+.labelinput_empty:focus {
+  color: #BBB;
+}
+
+.labelinput_password {
+}
+
+.required_error {
+  background: #FFEEEE;
+}
