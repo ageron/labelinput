@@ -3,7 +3,7 @@
 // Released under the MIT Licence.
 
 
-function setCaretPosition(input, pos) {
+function set_caret_position(input, pos) {
   if (Prototype.Browser.IE) {
     var sel = document.selection.createRange();
     sel.moveStart('character', -input.value.length);
@@ -20,12 +20,33 @@ function keydown_handler(event) {
   if (element.value==element.defaultValue) {
     element.removeClassName('labelinput_empty');
     if (element.hasClassName('labelinput_password')) {
-      element.type='password';
+      set_input_type(element,'password');
     }
     element.value='';
   }
   element.removeClassName("required_error");
 }
+
+function set_input_type(input, new_type) {
+  if (Prototype.Browser.IE) {
+    if (true) return input;
+    var new_input = document.createElement('input');
+    new_input.type = new_type;
+    if (input.id)    new_input.id    = input.id;
+    if (input.name)  new_input.name  = input.name;
+    if (input.className) new_input.className = input.className;
+    if (input.size)  new_input.size  = input.size;
+    if (input.value) new_input.value = input.value;
+    /* if (input.selectionStart) new_input.selectionStart = input.selectionStart;
+       if (input.selectionEnd)   new_input.selectionEnd   = input.selectionEnd;   */
+    input.parentNode.replaceChild(new_input,input);
+    return new_input;
+  } else {
+    input.type=new_type;
+    return input;
+  }
+}
+
 
 function focus_handler(event) {
   element=Event.element(event);
@@ -33,10 +54,10 @@ function focus_handler(event) {
     element.addClassName('labelinput_empty');
     element.value='';
     if (element.hasClassName('labelinput_password')) {
-      element.type='text';
+      set_input_type(element,'text');
     }
     element.value=element.defaultValue;
-    setCaretPosition(element, 0);
+    set_caret_position(element, 0);
   }
 }
  
@@ -45,7 +66,7 @@ function blur_handler(event) {
   if (element.value==element.defaultValue || element.value=='') {
     element.addClassName('labelinput_empty');
     if (element.hasClassName('labelinput_password')) {
-      element.type='text';
+      set_input_type(element, 'text');
     }
     element.value=element.defaultValue;
   }
@@ -97,7 +118,7 @@ Event.observe(window,'load',function() {
     if (element.type=='password') {
       element.addClassName('labelinput_password');
       element.value=element.defaultValue;
-      element.type='text';
+      set_input_type(element,'text');
     } else if (element.value=='' && element.value != element.defaultValue) {
       element.value = element.defaultValue;
     }
