@@ -10,7 +10,7 @@
     body { text-align: center; margin: 0; }
     h1 { width: 100%; background: #000044; color: white; margin: 0px 0px 10px 0px; padding: 3px 0px 3px 0px; }
     form { width: 500px; margin: 50px auto 0px auto; }
-    label { float: left; width: 150px; }
+    label { float: left; width: 150px; text-align: left; }
     p { margin: 5px; }
     legend { font-weight: bold; color: #000066; }
     .comment { font-style: italic; font-size: smaller; font-weight: lighter; margin-top: 10px; }
@@ -21,16 +21,16 @@
     function check_pass() {
       pwd=$('password');
       repwd=$('repeatpassword');
-      if (pwd.realValue==repwd.realValue) return true;
-      $('error').show();
+      if (pwd.actualValue()==repwd.actualValue()) { return true; }
+      $('errormsg').show();
       return false;
     }
-    function hideError {
-      $('error').hide();
-    });
+    function hideErrorMessage() {
+      $('errormsg').hide();
+    }
   </script>
 </head>
-<body onLoad="javascript: hideError();">
+<body onLoad="javascript: hideErrorMessage();">
   <h1>Test labelinput</h1>
   <form id="loginform" name="loginform" action="login" method="get" onSubmit="javascript: return check_pass();" >
     <fieldset>
@@ -41,7 +41,7 @@
     <p><label for="login">Login (*):</label><input id="login" name="login" class="labelinput required" value="eg. jsmith"></input></p>
     <p><label for="password">Password (*):</label><input id="password" name="password" class="labelinput required" value="Make it hard to guess" type="password"></input></p>
     <p><label for="repeatpassword">Repeat password (*):</label><input id="repeatpassword" name="repeatpassword" class="labelinput required" value="Repeat your password" type="password"></input></p>
-    <div id="error">Passwords are not identical. Please try again.</div>
+    <div id="errormsg">Passwords are not identical. Please try again.</div>
     <p class="comment">(*) These fields are mandatory</p>
     <p><input type="submit" value="Create my account >>" class="submitbutton"></input></p>
     </fieldset>
