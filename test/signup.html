@@ -19,10 +19,16 @@
   </style>
   <script language="javascript">
     function check_pass() {
+      hideErrorMessage();
       pwd=$('password');
       repwd=$('repeatpassword');
       if (pwd.actualValue()==repwd.actualValue()) { return true; }
       $('errormsg').show();
+      pwd.value = pwd.defaultValue;
+      repwd.value = repwd.defaultValue;
+      repwd.focus();
+      pwd.focus();
+
       return false;
     }
     function hideErrorMessage() {

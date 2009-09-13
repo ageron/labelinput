@@ -2,16 +2,14 @@
 // Copyright (c) 2009 Aurélien Geron, Wifirst
 // Released under the MIT Licence.
 
-
-function set_caret_position(input, pos) {
+function goto_start(input) {
   if (Prototype.Browser.IE) {
-    var sel = document.selection.createRange();
-    sel.moveStart('character', -input.value.length);
-    sel.moveStart('character', pos);
-    sel.moveEnd('character', 0);
+    range = input.createTextRange();
+    range.collapse(true);
+    range.select();
   } else {
-    input.selectionStart = pos;
-    input.selectionEnd = pos;
+    input.selectionStart = 0;
+    input.selectionEnd = 0;
   }
 }
 
@@ -20,44 +18,55 @@ function keydown_handler(event) {
   if (element.value==element.defaultValue) {
     element.removeClassName('labelinput_empty');
     if (element.hasClassName('labelinput_password')) {
-      set_input_type(element,'password');
+      element = set_input_type(element,'password', true);
     }
     element.value='';
   }
   element.removeClassName("required_error");
 }
 
-function set_input_type(input, new_type) {
-  if (Prototype.Browser.IE) {
-    if (true) return input;
-    var new_input = document.createElement('input');
-    new_input.type = new_type;
-    if (input.id)    new_input.id    = input.id;
-    if (input.name)  new_input.name  = input.name;
-    if (input.className) new_input.className = input.className;
-    if (input.size)  new_input.size  = input.size;
-    if (input.value) new_input.value = input.value;
-    /* if (input.selectionStart) new_input.selectionStart = input.selectionStart;
-       if (input.selectionEnd)   new_input.selectionEnd   = input.selectionEnd;   */
-    input.parentNode.replaceChild(new_input,input);
-    return new_input;
-  } else {
-    input.type=new_type;
+function set_input_type(input, type, add_observers) {
+  try {
+    input.type = type;
     return input;
+  }
+  catch (ex) {
+    var new_input = document.createElement("input");
+    new_input.type = type;
+    new_input.defaultValue = input.defaultValue;
+    for (prop in input) {
+      try {
+        if (prop != "type" && prop != "height" && prop != "width") { 
+          new_input[prop] = input[prop];
+        }
+      } 
+      catch(exc) {}
+    }
+    if (add_observers) { add_input_observers(new_input); }
+    input.parentNode.replaceChild(new_input, input);
+    return new_input;
   }
 }
 
+function add_input_observers(input) {
+  Event.observe(input, 'blur',    blur_handler);
+  Event.observe(input, 'keydown', keydown_handler);
+  Event.observe(input, 'keyup',   focus_handler);
+  Event.observe(input, 'focus',   focus_handler);
+  Event.observe(input, 'click',   focus_handler);
+}
 
 function focus_handler(event) {
   element=Event.element(event);
+
   if (element.value==element.defaultValue || element.value=='') {
     element.addClassName('labelinput_empty');
     element.value='';
     if (element.hasClassName('labelinput_password')) {
-      set_input_type(element,'text');
+      element = set_input_type(element,'text', true);
     }
     element.value=element.defaultValue;
-    set_caret_position(element, 0);
+    goto_start(element);
   }
 }
  
@@ -66,7 +75,7 @@ function blur_handler(event) {
   if (element.value==element.defaultValue || element.value=='') {
     element.addClassName('labelinput_empty');
     if (element.hasClassName('labelinput_password')) {
-      set_input_type(element, 'text');
+      element = set_input_type(element, 'text', true);
     }
     element.value=element.defaultValue;
   }
@@ -103,22 +112,15 @@ function actualValue() {
 }
 
 Event.observe(window,'load',function() {
-  forms = $$('form');
-  for (i=0; i<forms.length; i++) {
-    labelinputs = forms[i].descendants();
-    for (j=0; j<labelinputs.length; j++) {
-      if (labelinputs[j].hasClassName("labelinput")) {
-        forms[i].observe('submit', submit_handler);
-        break;
-      }
-    }
-  }
+  forms = $A(document.forms).each(function(form) {
+    form.observe('submit', submit_handler);
+  });
   $$('.labelinput').each(function(element){
     element.actualValue=actualValue.bind(element);
     if (element.type=='password') {
       element.addClassName('labelinput_password');
       element.value=element.defaultValue;
-      set_input_type(element,'text');
+      element = set_input_type(element,'text', false);
     } else if (element.value=='' && element.value != element.defaultValue) {
       element.value = element.defaultValue;
     }
@@ -127,12 +129,8 @@ Event.observe(window,'load',function() {
     } else {
       element.removeClassName('labelinput_empty');
     }
+    add_input_observers(element);
   });
-  $$('.labelinput').invoke('observe','blur', blur_handler);
-  $$('.labelinput').invoke('observe','keydown', keydown_handler);
-  $$('.labelinput').invoke('observe','keyup', focus_handler);
-  $$('.labelinput').invoke('observe','focus',focus_handler);
-  $$('.labelinput').invoke('observe','click',focus_handler);
   $$('.labelinput.autofocus').each(function(element){
     element.focus();
   });
