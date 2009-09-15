@@ -5,10 +5,11 @@ Released under the MIT Licence.
 = Introduction =
 
 LabelInput is a javascript tool which adds a label inside your text or password
-inputs.  This label automatically disappears when the input is not empty.
-The style can be changed as needed very easily.
+inputs or textareas.  This label automatically disappears when the input is not
+empty. The style can be changed as needed very easily.
 
-You can try it out by opening any HTML in the test directory in your browser.
+You can try it out by opening in your web brower any one of the HTML files
+located in the test directory.
 
 
 = Compatibility =
@@ -16,6 +17,8 @@ Should work in any recent Javascript-compatible browser.
 
 Tested on:
 - Iceweasel 3.0.6
+- Firefox 3.0.6
+- Internet Explorer 7
 
 
 = Installation =
@@ -49,6 +52,14 @@ Tested on:
    <input class="labelinput" id="lgn" name="lgn" value="Your login"></input>
    <input class="labelinput" id="pwd" name="pwd" value="Your password"></input>
 
+   For textareas, simply set the "labelinput" class and write the label inside
+   the node:
+
+   <textarea class="labelinput" id="comment" name="comment">
+     Type a comment here
+   </textarea>
+
+
 2. If you want a labelled input to be selected automatically when the page
    loads, simply add the "autofocus" class:
 
@@ -76,4 +87,6 @@ Tested on:
   message for example.
 - The autofocus and required functionnality should perhaps be extracted to
   their own javascript file. One may one one functionnality and not the others.
+- In Internet Explorer, the label disappear upon focus, and reappears if the
+  field is still empty upon leaving the field.
 

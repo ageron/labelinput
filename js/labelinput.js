@@ -15,70 +15,79 @@ function goto_start(input) {
 
 function keydown_handler(event) {
   element=Event.element(event);
-  if (element.value==element.defaultValue) {
-    element.removeClassName('labelinput_empty');
-    if (element.hasClassName('labelinput_password')) {
-      element = set_input_type(element,'password', true);
-    }
-    element.value='';
-  }
   element.removeClassName("required_error");
+  if (element._set_type_ok) {
+    element = hide_default(element);
+  }
 }
 
+function hide_default(element) {
+  if (element.value==element.defaultValue || element.value=='') {
+    element.removeClassName('labelinput_empty');
+    if (element.hasClassName('labelinput_password')) {
+      element = set_input_type(element, 'password', true);
+    }
+    element.value='';
+    return element;
+  }
+}
+
+function show_default(element, gostart) {
+  if (element.value==element.defaultValue || element.value=='') {
+    element.value='';
+    element.addClassName('labelinput_empty');
+    element.removeClassName("required_error");
+    if (element.hasClassName('labelinput_password')) {
+      element = set_input_type(element, 'text', true);
+    }
+    element.value = element.defaultValue;
+    if (gostart) { goto_start(element); }
+  }
+}
+ 
 function set_input_type(input, type, add_observers) {
+  if (input.type==type) { return input; }
   try {
     input.type = type;
     return input;
   }
   catch (ex) {
-    var new_input = document.createElement("input");
-    new_input.type = type;
-    new_input.defaultValue = input.defaultValue;
-    for (prop in input) {
-      try {
-        if (prop != "type" && prop != "height" && prop != "width") { 
-          new_input[prop] = input[prop];
-        }
-      } 
-      catch(exc) {}
+    input.hide();
+    if (type=="text") {
+      label = $(input.id+"__label");
+      label.show();
+      return label;
+    } else {
+      inputid=input.id.substring(0, input.id.length-7);
+      pwd = $(inputid);
+      pwd.show();
+      pwd.focus();
+      return pwd;
     }
-    if (add_observers) { add_input_observers(new_input); }
-    input.parentNode.replaceChild(new_input, input);
-    return new_input;
   }
 }
 
 function add_input_observers(input) {
   Event.observe(input, 'blur',    blur_handler);
+  Event.observe(input, 'focus',   focus_handler);
   Event.observe(input, 'keydown', keydown_handler);
   Event.observe(input, 'keyup',   focus_handler);
-  Event.observe(input, 'focus',   focus_handler);
   Event.observe(input, 'click',   focus_handler);
 }
 
+
 function focus_handler(event) {
   element=Event.element(event);
-
-  if (element.value==element.defaultValue || element.value=='') {
-    element.addClassName('labelinput_empty');
-    element.value='';
-    if (element.hasClassName('labelinput_password')) {
-      element = set_input_type(element,'text', true);
-    }
-    element.value=element.defaultValue;
-    goto_start(element);
+  if (element._set_type_ok) {
+    show_default(element, true);
+  } else {
+    hide_default(element);
   }
 }
- 
+
 function blur_handler(event) {
   element=Event.element(event);
-  if (element.value==element.defaultValue || element.value=='') {
-    element.addClassName('labelinput_empty');
-    if (element.hasClassName('labelinput_password')) {
-      element = set_input_type(element, 'text', true);
-    }
-    element.value=element.defaultValue;
-  }
+  show_default(element, false);
 }
 
 function submit_handler(event) {
@@ -113,14 +122,34 @@ function actualValue() {
 
 Event.observe(window,'load',function() {
   forms = $A(document.forms).each(function(form) {
-    form.observe('submit', submit_handler);
+    Event.observe(form, 'submit', submit_handler);
   });
   $$('.labelinput').each(function(element){
-    element.actualValue=actualValue.bind(element);
+    Object.extend(element, {"_set_type_ok": true });
     if (element.type=='password') {
       element.addClassName('labelinput_password');
-      element.value=element.defaultValue;
-      element = set_input_type(element,'text', false);
+      try {
+        element.type="text";
+        element.actualValue=actualValue.bind(element);
+      }
+      catch(ex) {
+        Object.extend(element, {"_set_type_ok": false });
+        new_input = $( document.createElement("input") );
+        new_input.type = "text";
+        new_input.id = element.id+"__label";
+        new_input.name = element.name+"__label";
+        new_input.value = element.value;
+        new_input.defaultValue = element.defaultValue;
+        new_input.value=element.defaultValue;
+        new_input.addClassName(element.classNames());
+        element.parentNode.insertBefore(new_input, element);
+        add_input_observers(element);
+        element.actualValue=function(){return this.value;}.bind(element);
+        new_input.actualValue=function(){return this.value;}.bind(element);
+        element.value='';
+        element.hide();
+        element=new_input;
+      }
     } else if (element.value=='' && element.value != element.defaultValue) {
       element.value = element.defaultValue;
     }

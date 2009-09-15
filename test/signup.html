@@ -16,6 +16,8 @@
     .comment { font-style: italic; font-size: smaller; font-weight: lighter; margin-top: 10px; }
     .submitbutton { float: right; background: #000099; color: white; font-weight: bold; }
     .submitbutton:hover { float: right; background: #8888EE; font-weight: bold; }
+    textarea { width: 300px; height: 120px; }
+    input { width: 300px; }
   </style>
   <script language="javascript">
     function check_pass() {
@@ -45,6 +47,7 @@
     <p><label for="lastname">Last name (*):</label><input id="lastname" name="lastname" class="labelinput required" value="eg. Smith"></input></p>
     <p><label for="email">Email:</label><input id="email" name="email" class="labelinput" value="eg. jsmith@gmail.com"></input></p>
     <p><label for="login">Login (*):</label><input id="login" name="login" class="labelinput required" value="eg. jsmith"></input></p>
+    <p><label for="comment">Comment about yourself:</label><textarea id=="comment" name="comment" class="labelinput">eg. I love skydiving</textarea></p>
     <p><label for="password">Password (*):</label><input id="password" name="password" class="labelinput required" value="Make it hard to guess" type="password"></input></p>
     <p><label for="repeatpassword">Repeat password (*):</label><input id="repeatpassword" name="repeatpassword" class="labelinput required" value="Repeat your password" type="password"></input></p>
     <div id="errormsg">Passwords are not identical. Please try again.</div>

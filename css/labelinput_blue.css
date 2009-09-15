@@ -5,6 +5,7 @@
 /***********************************************/
 
 .labelinput {
+  margin: 0px;
   color: #004;
 }
 .labelinput:focus {
