@@ -1,18 +1,24 @@
 /***********************************************/
-/*  Labelinput v1.00                           */
+/*  Labelinput v1.01                           */
 /*  Copyright (c) 2009 Aurélien Geron, Wifirst */
 /*  Released under the MIT Licence             */
 /***********************************************/
 
-.labelinput_empty {
-  color: #777;
+label.labelinput {
+  position: absolute;
+  text-indent: -1000px;
 }
 
-.labelinput_empty:focus {
-  color: #BBB;
+div.labelinput_parent {
+  position: relative;
 }
 
-.required_error {
-  background: #FAA;
+label.labelinput_active {
+  position:absolute;
+  top:3px;
+  left:5px;
+  z-index:1;
+  color:#999;
+  cursor: text;
 }
 

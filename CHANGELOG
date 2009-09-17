@@ -1,0 +1,8 @@
+2009-09-17
+v1.01 - Complete rewrite based on the overlabel technique.
+This technique is described here:
+http://www.alistapart.com/articles/makingcompactformsmoreaccessible
+
+2009-09-09
+v1.00 - Initial release
+Actually pretty bad.

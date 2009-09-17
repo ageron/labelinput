@@ -9,23 +9,49 @@
   -->.
   <link href="../css/labelinput_plain.css" rel="stylesheet" type="text/css" />
   <script src="../js/prototype.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    document.observe('dom:loaded', function(event){
+      $('i2').focus();
+    });
+  </script>
   <script src="../js/labelinput.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    LabelInput.prototype.options = {"hideUponFocus": true};
+  </script>
 </head>
 <body>
   <form action="login" method="post">
-    <p>Regular input: <input id="f1" name="f1" value="Some default value"></input></p>
-    <p>Required autofocus labelinput: <input id="f2" name="f2" class="labelinput autofocus required" value="Some label"></input></p>
-    <p>Required labelinput: <input id="f3" name="f3" class="labelinput required" value="Another label"></input></p>
-    <p>Plain labelinput: <input id="f4" name="f4" class="labelinput" value="Yet another label"></input></p>
-    <p>Regular password input: <input id="p1" name="p1" type="password"></input></p>
-    <p>Plain password labelinput: <input id="p2" name="p2" class="labelinput" type="password" value="Again, some label"></input></p>
-    <p>Required password labelinput: <input id="p3" name="p3" class="labelinput required" type="password" value="Again again"></input></p>
-    <p>Regular textarea: <textarea id="t1" name="t1">Some default text</textarea></p>
-    <p>Plain labelinput textarea: <textarea id=="t2" name="t2" class="labelinput">Another default text</textarea></p>
-    <p>Required labelinput textarea: <textarea id=="t3" name="t3" class="labelinput required">Yet another default text</textarea></p>
-    <p><input type="submit"></input></p>
+    <h1>Text input</h1>
+    <div>
+      <label for="i1">Regular label</label>
+      <input id="i1" name="i1"></input>
+    </div>
+    <div>
+      <label for="i2" class="labelinput"><strong>LabelInput</strong> label</label>
+      <input id="i2" name="i2"></input>
+    </div>
+    <h1>Password input</h1>
+    <div>
+      <label for="p1">Regular label</label>
+      <input id="p1" name="p1" type="password"></input>
+    </div>
+    <div>
+      <label for="p2" class="labelinput"><strong>LabelInput</strong> label</label>
+      <input id="p2" name="p2" type="password"></input>
+    </div>
+    <h1>Textarea</h1>
+    <div>
+      <label for="t1">Regular label</label>
+      <textarea id="t1" name="t1"></textarea>
+    </div>
+    <div>
+      <label for="t2" class="labelinput"><strong>LabelInput</strong> label</label>
+      <textarea id="t2" name="t2"></textarea>
+    </div>
+    <div>
+      <input type="submit"></input>
+    </div>
   </form>
 </body>
 </html>
-
 
