@@ -100,7 +100,11 @@ For LabelInput:
     the input or textarea that the label points to.
     Default: true
   hideUponFocus: [boolean] automatically hide the label upon focus (instead of
-    hiding the label only when the field is not empty.
+    hiding the label only when the field is not empty).
+      Small note: if you set this option to true, you can still focus one of
+      the fields *before* the document is fully loaded and the label will then
+      only disappear when you type a key.  This might be useful if you want a
+      field to be automatically focused but you want the label to be displayed.
     Default: false
 
 For RequiredInput:
