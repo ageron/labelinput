@@ -16,10 +16,14 @@ LabelInput.prototype = {
     }.bind(this));
   },
   onKeyDown: function(event) {
-    this.hideLabel(Event.element(event).labelinput_label);
+    element = Event.element(event);
+    element.hasFocus = true;
+    this.hideLabel(element.labelinput_label);
+    element.hasFocus = true;
   },
   onKeyUp: function(event) {
     element = Event.element(event);
+    element.hasFocus = true;
     if (!this.hideUponFocus && element.value=='') {
       this.showLabel(element.labelinput_label);
     }
@@ -33,6 +37,7 @@ LabelInput.prototype = {
   },
   onFocus: function(event) {
     element = Event.element(event);
+    element.hasFocus = true;
     if (this.hideUponFocus) {
       this.hideLabel(element.labelinput_label);
     } else {
@@ -44,10 +49,12 @@ LabelInput.prototype = {
     if (element.value!='') {
       this.hideLabel(element.labelinput_label);
     } else {
-      if (this.hideUponFocus) { this.showLabel(element.labelinput_label); }
+      if (!this.hideUponFocus && element.hasFocus) { this.showLabel(element.labelinput_label); }
     }
   },
   onBlur: function(event) {
+    element = Event.element(event);
+    element.hasFocus = false;
     if (element.value!='') {
       this.hideLabel(element.labelinput_label);
     } else {
@@ -69,7 +76,8 @@ LabelInput.prototype = {
       if (this.setForElementStyle) {
         forElement.addClassName(this.className+"_for");
       }
-      Object.extend(forElement, {'labelinput_label': label});
+      forElement.labelinput_label = label;
+      forElement.hasFocus = false;
       forElement.observe('focus',   this.onFocus.bind(this));
       forElement.observe('blur',    this.onBlur.bind(this));
       forElement.observe('keyup',   this.onKeyUp.bind(this));
