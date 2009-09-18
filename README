@@ -2,15 +2,25 @@ Labelinput v1.01
 Copyright (c) 2009 Aurélien Geron, Wifirst
 Released under the MIT Licence.
 
+
 = Introduction =
 
-LabelInput is a javascript tool which adds a label inside your text or password
-inputs or textareas.  This label automatically disappears when the input is not
-empty (or optionally upon focus). The style can be changed as needed very
-easily.
+LabelInput is a javascript plugin which adds a label inside your text or
+password inputs or textareas.  This label automatically disappears when the
+input is not empty (or optionally upon focus). The style can be changed as
+needed very easily.
 
 You can try it out by opening in your web brower any one of the HTML files
-located in the test directory.
+located in the test directory, or by visiting:
+
+http://aureliengeron.free.fr/labelinput/test/signup.html
+http://aureliengeron.free.fr/labelinput/test/plain.html
+
+
+= Credit =
+
+This plugin is based on the overlabel technique by Mike Brittain:
+http://www.alistapart.com/articles/makingcompactformsmoreaccessible
 
 
 = Compatibility =
@@ -19,6 +29,7 @@ Should work in any recent Javascript-compatible browser.
 Tested on:
 - Iceweasel 3.0.6
 - Firefox 3.0.6
+- Internet Explorer 6
 - Internet Explorer 7
 - Internet Explorer 8
 
