@@ -11,6 +11,7 @@ LabelInput.prototype = {
     this.setParentDivStyle  = this.options["setParentDivStyle"] || true;
     this.setForElementStyle = this.options["setForElementStyle"] || true;
     this.hideUponFocus      = this.options["hideUponFocus"] || false;
+    this.checkInterval      = this.options["checkInterval"] || 100;
     $$('label.'+this.className).each(function(label){
       this.initLabel(label);
     }.bind(this));
@@ -88,17 +89,27 @@ LabelInput.prototype = {
     }
   },
   hideLabel:   function(label) {
-    label.style.textIndent="-1000px";
+    label.style.textIndent="-10000px";
   },
   showLabel:   function(label) {
     forElement = $(label.htmlFor);
     if (forElement && forElement.value=='') {
       label.style.textIndent="0px";
     }
+  },
+  hideLabelsIfInputsAreNotEmpty: function() {
+    $$('label.'+this.className).each(function(label){
+      forElement = $(label.htmlFor);
+      if (forElement && forElement.value!='') {
+        this.hideLabel(label);
+      }
+    }.bind(this));
   }
 }
 
 document.observe("dom:loaded", function() {
-  new LabelInput();
+  LabelInput.instance = new LabelInput();
+  if (LabelInput.instance.checkInterval && LabelInput.instance.checkInterval>0) {
+    setInterval("LabelInput.instance.hideLabelsIfInputsAreNotEmpty()", LabelInput.instance.checkInterval);
+  }
 });
-

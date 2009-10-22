@@ -118,6 +118,11 @@ For LabelInput:
       only disappear when you type a key.  This might be useful if you want a
       field to be automatically focused but you want the label to be displayed.
     Default: false
+  checkInterval: [int] number of milliseconds between automatic checks to hide
+    labels when the related inputs are not empty.
+      This is used as a workaround for the display bug found in most browsers
+      with automatic completion.  Just could not find the events to catch.
+    Default: 100
 
 For RequiredInput:
   className: [string] the name of the class used to identify required inputs
